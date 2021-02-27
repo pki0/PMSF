@@ -667,6 +667,12 @@ var darkmatter = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net
     maxNativeZoom: 18
 })
 
+var cartodbpositron = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/light_all/{z}/{x}/{y}.png', { // eslint-disable-line no-unused-vars
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+    maxZoom: maxZoom,
+    maxNativeZoom: 18
+})
+
 var styletopo = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', { // eslint-disable-line no-unused-vars
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
     maxZoom: maxZoom,
@@ -1492,9 +1498,9 @@ function gymLabel(item) {
         raidStr = '<h3 style="margin-bottom: 0">Raid ' + levelStr
         if (raidStarted) {
             var cpStr = ''
-            if (item.raid_pokemon_cp > 0) {
-                cpStr = ' CP ' + item.raid_pokemon_cp
-            }
+            //if (item.raid_pokemon_cp > 0) {
+                //cpStr = ' CP ' + item.raid_pokemon_cp
+            //}
             raidStr += '<br>' + item.raid_pokemon_name
             if (form !== null && form > 0 && item['form_name'] !== 'Normal') {
                 raidStr += ' (' + i8ln(item['form_name']) + ')'
@@ -1515,7 +1521,7 @@ function gymLabel(item) {
             if (gender > 0) {
                 raidStr += ' ' + genderType[gender - 1]
             }
-            raidStr += cpStr
+            //raidStr += cpStr
         }
         raidStr += '</h3>'
         if (raidStarted && item.raid_pokemon_move_1 > 0 && item.raid_pokemon_move_1 !== '133' && item.raid_pokemon_move_2 > 0 && item.raid_pokemon_move_2 !== '133') {
@@ -1529,10 +1535,10 @@ function gymLabel(item) {
         raidStr += '<div>' + i8ln('Start') + ': <b>' + raidStartStr + '</b> <span class="label-countdown" disappears-at="' + item['raid_start'] + '" start>(' + generateRemainingTimer(item['raid_start'], 'start') + ')</span></div>'
         raidStr += '<div>' + i8ln('End') + ': <b>' + raidEndStr + '</b> <span class="label-countdown" disappears-at="' + item['raid_end'] + '" end>(' + generateRemainingTimer(item['raid_end'], 'end') + ')</span></div>'
         if (!noHideSingleMarker) {
-            raidStr += '<a href="javascript:removeGymMarker(\'' + item['gym_id'] + '\')" title="' + i8ln('Hide this Gym') + '"><i class="fas fa-eye-slash" style="font-size:15px;"></i></a>'
+            raidStr += '<a href="javascript:removeGymMarker(\'' + item['gym_id'] + '\')" title="' + i8ln('Hide this Gym') + '"><i class="fas fa-trash-alt" style="font-size:15px;"></i></a>'
         }
         var raidForm = item['form']
-        var formStr = (raidForm <= 0 || raidForm == null || raidForm === '0') ? '00' : raidForm
+        var formStr = '00' //(raidForm <= 0 || raidForm == null || raidForm === '0') ? '00' : raidForm
         var pokemonid = item['raid_pokemon_id']
         var pokemonidStr = (pokemonid <= 9) ? '00' + pokemonid : ((pokemonid <= 99) ? '0' + pokemonid : pokemonid)
         var costumeStr = (item['raid_pokemon_costume'] > 0) ? '_' + item['raid_pokemon_costume'] : ''
@@ -1587,12 +1593,12 @@ function gymLabel(item) {
 
     var gymColor = ['0, 0, 0, .4', '6, 119, 239', '255, 45, 33', '251, 210, 8']
     var str
-    var gymImage = ''
-    if (url !== null) {
-        gymImage = '<img id="' + item['gym_id'] + '"class="gym-image" style="border:3px solid rgba(' + gymColor[teamId] + ')" src="' + url + '" onclick="openFullscreenModal(document.getElementById(\'' + item['gym_id'] + '\').src)">'
-    }
-    var teamStr = (teamId === 0) ? i8ln('Uncontested Gym') : '<b style="color:rgba(' + gymColor[teamId] + ')">' + i8ln('Team') + ' ' + i8ln(teamName) + '</b><br>'
-    var whatsappLink = ''
+    //var gymImage = ''
+    //if (url !== null) {
+        //gymImage = '<img id="' + item['gym_id'] + '"class="gym-image" style="border:3px solid rgba(' + gymColor[teamId] + ')" src="' + url + '" onclick="openFullscreenModal(document.getElementById(\'' + item['gym_id'] + '\').src)">'
+    //}
+    //var teamStr = (teamId === 0) ? i8ln('Uncontested Gym') : '<b style="color:rgba(' + gymColor[teamId] + ')">' + i8ln('Team') + ' ' + i8ln(teamName) + '</b><br>'
+    //var whatsappLink = ''
     var exGym = (item.park && item.park !== '0') ? i8ln('%20(EX Gym)') : ''
     if (((!noWhatsappLink) && (raidSpawned && item.raid_end > Date.now())) && (item.raid_pokemon_id > 1 && item.raid_pokemon_id < numberOfPokemon)) {
         whatsappLink = '<a href="whatsapp://send?text=' + encodeURIComponent(item.name) + exGym + '%0ALevel%20' + item.raid_level + '%20' + item.raid_pokemon_name + '%0A%2AStart:%20' + raidStartStr + '%2A%0A%2AEnd:%20' + raidEndStr + '%2A%0AStats:%0Ahttps://pokemongo.gamepress.gg/pokemon/' + item.raid_pokemon_id + '%0AMoves:%0A' + pMove1 + ' / ' + pMove2 + '%0A%0ADirections:%0Ahttps://www.google.com/maps/search/?api=1%26query=' + item.latitude + ',' + item.longitude + '" data-action="share/whatsapp/share"><i class="fab fa-whatsapp" style="position:relative;top:3px;left:5px;color:#26c300;font-size:20px;"></i></a>'
@@ -1607,31 +1613,24 @@ function gymLabel(item) {
         '<div class="gym-label">' +
         '<center>' +
         nameStr +
+        //'<div>' +
+        //teamStr +
+        //'</div>' +
         '<div>' +
-        teamStr +
-        '</div>' +
-        '<div>' +
-        gymImage +
+        //gymImage +
         raidIcon +
         '</div>' +
-        '<div><b>' + freeSlots + ' ' + i8ln('Free Slots') + '</b></div>' +
         raidStr +
         '<div>' +
         '<a href="javascript:void(0);" onclick="javascript:openMapDirections(' + latitude + ',' + longitude + ');" title="' + i8ln('View in Maps') + '"><i class="fas fa-road" style="padding-right:0.25em"></i>' + coordText + '</a>'
-    if (hideGymCoords === true) {
-        str += '-'
-    } else {
-        str += ' ' +
-                '<button onclick="copyCoordsToClipboard(this.previousElementSibling);" class="small-tight">' + 'Copy' + '</button> '
-    }
-    str += '<a href="./?lat=' + latitude + '&lon=' + longitude + '&zoom=18&gymId=' + item['gym_id'] + '"><i class="far fa-share-square" aria-hidden="true" style="position:relative;top:3px;left:0px;color:#26c300;font-size:20px;"></i></a>' +
-        whatsappLink +
-        '</div>' +
-        '<div>' +
-        i8ln('Last Modified') + ': ' + lastModifiedStr +
-        '</div>' +
-        '<div>' +
-        lastScannedStr +
+    //if (hideGymCoords === true) {
+        //str += '-'
+    //} else {
+        //str += ' ' +
+                //'<button onclick="copyCoordsToClipboard(this.previousElementSibling);" class="small-tight">' + 'Copy' + '</button> '
+    //}
+    str += ' ' + '<a href="./?lat=' + latitude + '&lon=' + longitude + '&zoom=18&gymId=' + item['gym_id'] + '"><i class="far fa-share-square" aria-hidden="true" style="position:relative;top:3px;left:0px;color:#26c300;font-size:20px;"></i></a>' +
+        //whatsappLink +
         '</div>' +
         '</center>' +
         '</div>'
@@ -2267,25 +2266,33 @@ function getGymMarkerIcon(item) {
     var park = item['park']
     var level = 6 - item['slots_available']
     var raidForm = item['form']
-    var formStr = (raidForm <= 0 || raidForm == null || raidForm === '0') ? '00' : raidForm
+    var formStr = '00' //(raidForm <= 0 || raidForm == null || raidForm === '0') ? '00' : raidForm
     var evolutionStr = (item['raid_pokemon_evolution'] > 0) ? '_' + item['raid_pokemon_evolution'] : ''
     var pokemonid = item['raid_pokemon_id']
     var pokemonidStr = (pokemonid <= 9) ? '00' + pokemonid : ((pokemonid <= 99) ? '0' + pokemonid : pokemonid)
     var costumeStr = (item['raid_pokemon_costume'] > 0) ? '_' + item['raid_pokemon_costume'] : ''
     var team = item.team_id
-    var teamStr = (team === 0 || level === null) ? gymTypes[item['team_id']] : gymTypes[item['team_id']] + '_' + level
+    var teamStr = (team === 0 || level === null) ? gymTypes[item['team_id']] : gymTypes[item['team_id']] //+ '_' + level
     var fortMarker = ''
     var exIcon = (((park !== '0' && onlyTriggerGyms === false && park) || triggerGyms.includes(item['gym_id'])) && (noExGyms === false)) ? '<img src="static/images/ex.png" style="position:absolute;right:25px;bottom:2px;"/>' : ''
     var smallExIcon = (((park !== '0' && onlyTriggerGyms === false && park) || triggerGyms.includes(item['gym_id'])) && (noExGyms === false)) ? '<img src="static/images/ex.png" style="width:26px;position:absolute;right:35px;bottom:13px;"/>' : ''
     var html = ''
     if (item['raid_pokemon_id'] != null && item.raid_end > Date.now()) {
         html = '<div style="position:relative;">' +
-            '<img src="static/forts/' + Store.get('gymMarkerStyle') + '/' + teamStr + '.png" style="width:50px;height:auto;"/>' +
-            exIcon +
+            //'<img src="static/forts/' + Store.get('gymMarkerStyle') + '/' + teamStr + '.png" style="width:50px;height:auto;"/>' +
+            //exIcon +
             '<img src="' + iconpath + 'pokemon_icon_' + pokemonidStr + '_' + formStr + costumeStr + evolutionStr + '.png" style="width:50px;height:auto;position:absolute;top:-15px;right:0px;"/>' +
             '</div>'
         if (noRaidTimer === false && Store.get(['showRaidTimer'])) {
-            html += '<div><span class="raid-countdown gym-icon-countdown" disappears-at="' + item['raid_end'] + '" end>' + generateRemainingTimer(item['raid_end'], 'end') + '</span></div>'
+            //console.log(item['raid_end'])
+            //console.log(generateRemainingTimer(item['raid_end'], 'end').split('m')[0]) // < 5
+            if (generateRemainingTimer(item['raid_end'], 'end').split('m')[0] < 5) {
+		html += '<div><span class="raid-countdown gym-icon-countdown-red" style="padding-left:5px;padding-right:5px;" disappears-at="' + item['raid_end'] + '" end>' + generateRemainingTimer(item['raid_end'], 'end') + '</span></div>'
+            } else if (generateRemainingTimer(item['raid_end'], 'end').split('m')[0] < 15) {
+                html += '<div><span class="raid-countdown gym-icon-countdown-yellow" style="padding-left:5px;padding-right:5px;" disappears-at="' + item['raid_end'] + '" end>' + generateRemainingTimer(item['raid_end'], 'end') + '</span></div>'
+	    } else {
+            html += '<div><span class="raid-countdown gym-icon-countdown" style="padding-left:5px;padding-right:5px;" disappears-at="' + item['raid_end'] + '" end>' + generateRemainingTimer(item['raid_end'], 'end') + '</span></div>'
+	    }
         }
         fortMarker = L.divIcon({
             iconSize: [50, 50],
@@ -2311,7 +2318,7 @@ function getGymMarkerIcon(item) {
             '<img src="static/raids/egg_' + hatchedEgg + '.png" style="width:35px;height:auto;position:absolute;top:-11px;right:18px;"/>' +
             '</div>'
         if (noRaidTimer === false && Store.get(['showRaidTimer'])) {
-            html += '<div><span class="raid-countdown gym-icon-countdown" disappears-at="' + item['raid_end'] + '" end>' + generateRemainingTimer(item['raid_end'], 'end') + '</span></div>'
+	    html += '<div><span class="raid-countdown gym-icon-countdown" disappears-at="' + item['raid_end'] + '" end>' + generateRemainingTimer(item['raid_end'], 'end') + '</span></div>'
         }
         fortMarker = L.divIcon({
             iconSize: [50, 50],
@@ -2337,7 +2344,11 @@ function getGymMarkerIcon(item) {
             '<img src="static/raids/egg_' + raidEgg + '.png" style="width:30px;position:absolute;top:4px;right:15px;"/>' +
             '</div>'
         if (noRaidTimer === false && Store.get(['showRaidTimer'])) {
-            html += '<div><span class="raid-countdown gym-icon-countdown" disappears-at="' + item['raid_start'] + '" end>' + generateRemainingTimer(item['raid_start'], 'end') + '</span></div>'
+	  if (generateRemainingTimer(item['raid_start'], 'end').split('m')[0] < 5) {
+            html += '<div><span class="raid-countdown gym-icon-countdown-green" style="padding-left:5px;padding-right:5px;" disappears-at="' + item['raid_start'] + '" end>' + generateRemainingTimer(item['raid_start'], 'end') + '</span></div>'
+          } else {
+            html += '<div><span class="raid-countdown gym-icon-countdown" style="padding-left:5px;padding-right:5px;" disappears-at="' + item['raid_start'] + '" end>' + generateRemainingTimer(item['raid_start'], 'end') + '</span></div>'
+	  }
         }
         fortMarker = L.divIcon({
             iconSize: [50, 50],

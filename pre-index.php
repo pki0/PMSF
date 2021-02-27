@@ -838,7 +838,7 @@ if (!$noLoadingScreen) {
             <?php
             if (! $noRaids || ! $noGyms) {
                 if (! $noRaids) {
-                    echo '<h3>' . i8ln('Gym &amp; Raid') . '</h3>';
+                    echo '<h3>' . i8ln('Raids') . '</h3>';
                 } else {
                     echo '<h3>' . i8ln('Gym') . '</h3>';
                 } ?>

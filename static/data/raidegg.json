@@ -4,11 +4,6 @@
     "image_name": "normal",
     "level": "1"
   },
-  "2": {
-    "type": "1",
-    "image_name": "normal",
-    "level": "2"
-  },
   "3": {
     "type": "1",
     "image_name": "rare",
@@ -34,20 +29,10 @@
     "image_name": "hatched_normal",
     "level": "1"
   },
-  "8": {
-    "type": "2",
-    "image_name": "hatched_normal",
-    "level": "2"
-  },
   "9": {
     "type": "2",
     "image_name": "hatched_rare",
     "level": "3"
-  },
-  "10": {
-    "type": "2",
-    "image_name": "hatched_rare",
-    "level": "4"
   },
   "11": {
     "type": "2",

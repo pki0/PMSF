@@ -36,9 +36,34 @@
   margin: 6px;
 }
 .gym-icon-countdown {
-    background-color: #c7c7c7;
-    color: black;
-    top: 50px;
+    background-color: black;
+    color: white;
+    top: 35px;
+    position: absolute;
+    font-weight: 900;
+    border-radius: 10px;
+}
+.gym-icon-countdown-red {
+    background-color: black;
+    color: red;
+    top: 35px;
+    position: absolute;
+    font-weight: 900;
+    border-radius: 10px;
+    z-index:999999999;
+}
+.gym-icon-countdown-yellow {
+    background-color: black;
+    color: #e5e500;
+    top: 35px;
+    position: absolute;
+    font-weight: 900;
+    border-radius: 10px;
+}
+.gym-icon-countdown-green {
+    background-color: black;
+    color: #00cc00;
+    top: 35px;
     position: absolute;
     font-weight: 900;
     border-radius: 10px;
